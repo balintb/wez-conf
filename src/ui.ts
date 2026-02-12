@@ -844,6 +844,23 @@ export function render(root: HTMLElement): void {
   root.appendChild(main);
 
   const footer = document.createElement("footer");
+
+  const projectLinks = document.createElement("div");
+  projectLinks.className = "footer-projects";
+  const wezLink2 = document.createElement("a");
+  wezLink2.href = "https://wez-conf.balintb.com/";
+  wezLink2.textContent = "wez-conf";
+  wezLink2.className = "footer-project active";
+  const kittyLink2 = document.createElement("a");
+  kittyLink2.href = "https://kitty-conf.balintb.com/";
+  kittyLink2.target = "_blank";
+  kittyLink2.rel = "noopener";
+  kittyLink2.textContent = "kitty-conf";
+  kittyLink2.className = "footer-project";
+  projectLinks.appendChild(wezLink2);
+  projectLinks.appendChild(kittyLink2);
+  footer.appendChild(projectLinks);
+
   const footerText = document.createElement("code");
   footerText.textContent = "$ made with <3 | ";
   footer.appendChild(footerText);
