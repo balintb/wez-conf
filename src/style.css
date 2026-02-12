@@ -186,6 +186,8 @@ header p a:hover code {
 
 /* WezTerm preview window */
 .wez-preview {
+  position: relative;
+  z-index: 60;
   width: 100%;
   max-width: 640px;
   border-radius: var(--radius-lg);
