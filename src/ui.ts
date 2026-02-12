@@ -104,7 +104,7 @@ function createSchemeField(setting: Setting): HTMLDivElement {
       ? COLOR_SCHEMES.filter((s) => s.toLowerCase().includes(lower))
       : COLOR_SCHEMES;
 
-    for (const scheme of matches.slice(0, 50)) {
+    for (const scheme of matches) {
       const item = document.createElement("div");
       item.className = "scheme-item";
       item.textContent = scheme;

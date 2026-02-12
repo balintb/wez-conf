@@ -1,4 +1,5 @@
 import { getValue, subscribe } from "./state";
+import { SCHEME_DATA } from "./scheme-data";
 
 let root: HTMLElement;
 let titlebar: HTMLElement;
@@ -134,12 +135,32 @@ function setupDrag(): void {
 function updatePreview(): void {
   const s = root.style;
 
-  // Defaults for when no scheme is selected (dark theme)
-  s.setProperty("--p-fg", "#cccccc");
-  s.setProperty("--p-bg", "#000000");
+  // Apply color scheme or defaults
+  const scheme = SCHEME_DATA[getValue("color_scheme")];
+  const fg = scheme ? scheme.fg : "#cccccc";
+  const bg = scheme ? scheme.bg : "#000000";
+  const cursor = scheme ? scheme.cursor : "#cccccc";
+  s.setProperty("--p-fg", fg);
+  s.setProperty("--p-bg", bg);
+  s.setProperty("--p-cursor", cursor);
+
+  if (scheme) {
+    for (let i = 0; i < 8; i++) {
+      s.setProperty(`--p-c${i}`, scheme.ansi[i]);
+      s.setProperty(`--p-c${i + 8}`, scheme.brights[i]);
+    }
+  } else {
+    // Reset to CSS defaults by removing overrides
+    for (let i = 0; i < 16; i++) {
+      s.removeProperty(`--p-c${i}`);
+    }
+  }
 
   const opacity = getValue("window_background_opacity");
-  s.setProperty("--p-bg-rgba", `rgba(0, 0, 0, ${opacity})`);
+  const r = parseInt(bg.slice(1, 3), 16);
+  const g = parseInt(bg.slice(3, 5), 16);
+  const b = parseInt(bg.slice(5, 7), 16);
+  s.setProperty("--p-bg-rgba", `rgba(${r}, ${g}, ${b}, ${opacity})`);
 
   const fontFamily = getValue("font_family");
   if (fontFamily) {
